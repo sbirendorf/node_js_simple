@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<HTML>
+   <head>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   </head>
+<body>
+     <div class="top" style="width: 100%;padding: 10px; margin-bottom: 10px;background: white;color: black; position: absolute; z-index: 1001;top: 0px;"> 
+            Check out <input type="text" class='input' value="http://"> It's awesome!'.
+     </div>
+
+     <div class="display" style="position: absolute;top: 50px; height: 500px; width: 100%"></div>
+
+      <script type="text/javascript">
+        $( document ).ready(function() {
+                $(".input").focusout(function(){
+                    console.log($('.input').val());
+                     var json = JSON.stringify({site: $('.input').val()});
+
+                     $.ajax({
+                            type: 'POST',
+                            url: "/api/link",
+                            data: {"data": json},
+                                success: function (result) {
+                                   if (typeof result.reason != "undefined") {
+                                       $('.display').html(result.reason);
+                                    }else{
+                                        $('.display').html(result);
+                                    }
+                                },
+                                error: function (result) {
+                                    $('.display').html(result);
+                                }
+                    });
+                });
+        });
+    </script>
+</body>
+</HTML>
